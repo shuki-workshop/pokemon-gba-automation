@@ -38,8 +38,7 @@ class check(ImageProcPythonCommand):
         self.obs_port = 4455
 
         # サーバーパスワード
-        #obs_password = "××××××××××××××××"
-        self.obs_password = "ySeCxebljZ4zXtqP"
+        self.obs_password = "××××××××××××××××"
 
         # 変更するソース名
         self.obs_source = "num"
