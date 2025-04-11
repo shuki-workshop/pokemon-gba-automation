@@ -44,6 +44,9 @@ class shiny_Feebas(ImageProcPythonCommand):
         # カウンター初期値
         self.FishCount = 0
 
+        # 開始位置(行番号)
+        self.StartNum = 0
+
         # Reload Portボタンの座標
         self.reroadPortX = -1598
         self.reroadPortY = 843
@@ -61,8 +64,7 @@ class shiny_Feebas(ImageProcPythonCommand):
         self.obs_port = 4455
 
         # サーバーパスワード
-        #obs_password = "××××××××××××××××"
-        self.obs_password = "ySeCxebljZ4zXtqP"
+        self.obs_password = "××××××××××××××××"
 
         # 変更するソース名
         self.obs_source = "num"
@@ -130,7 +132,7 @@ class shiny_Feebas(ImageProcPythonCommand):
         self.JudgCount1 = 0
         self.JudgCount2 = 0
         self.RouteNum = 0
-        self.dir = 'u'
+        self.dir = 'l'
 
         # ログ設定
         self._logger = getLogger(__name__)
@@ -160,11 +162,16 @@ class shiny_Feebas(ImageProcPythonCommand):
         self.REROAD_PORT()
 
         # 初期位置へ移動
-        #self.MOVE(self.FishPoint[self.RouteNum])
+        print(self.RouteNum)
+        self.MOVE(self.FishPoint[self.RouteNum])
         self.RouteNum += 1
 
         while True:
-            self.result = self.FISHING()
+            if self.RouteNum <= self.StartNum:
+                self.JudgCount1 = self.JudgThreshold
+                self.result = ""
+            else:
+                self.result = self.FISHING()
 
             # 色違いが出たら終了
             if self.result == 'Shiny':
@@ -190,6 +197,7 @@ class shiny_Feebas(ImageProcPythonCommand):
                 self.JudgCount1 = 0
 
                 # 移動
+                print(self.RouteNum)
                 self.MOVE(self.FishPoint[self.RouteNum])
                 self.RouteNum += 1
                 if self.RouteNum >= len(self.FishPoint):
